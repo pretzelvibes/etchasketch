@@ -1,15 +1,21 @@
 const container = document.querySelector("#container");
 const btnNewGrid = document.querySelector("#newGrid");
 const checkRGB = document.querySelector("#randomRGB");
+const checkEraser = document.querySelector("#eraser");
+
 
 
 const widthContainer = 500;
 const heightContainer = 500;
 let randomRGB = false;
+let eraser = false;
 
 btnNewGrid.addEventListener("click", createNewGrid);
 checkRGB.addEventListener("change", (e) => {
     randomRGB = e.currentTarget.checked;
+});
+checkEraser.addEventListener("change", (e) => {
+    eraser = e.currentTarget.checked;
 });
 
 function setContainer() {
@@ -26,6 +32,8 @@ function generateRandomRGB() {
 function colorPixel() {
     if (randomRGB) {
         return generateRandomRGB();
+    } else if (eraser) {
+        return [255, 255, 255]
     } else {
         return [80, 80, 80];
     }
