@@ -1,0 +1,13 @@
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    outline: 1px solid black;  
+}
+
+div {
+    outline: 1px solid black;
+}
+
+#newGrid {
+    margin-bottom: 50px;
+}
