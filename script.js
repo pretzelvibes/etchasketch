@@ -34,7 +34,8 @@ function cleanCanvas() {
 }
 
 function setContainer() {
-    container.setAttribute("style", "width: " + widthContainer + "px; height: " + heightContainer + "px");
+    container.style.width = widthContainer + "px";
+    container.style.height = heightContainer + "px";
 }
 
 function generateRandomRGB() {
