@@ -56,7 +56,7 @@ function resetState() {
 function cleanCanvas() {
     const squares = container.querySelectorAll("div");
     squares.forEach(cell => {
-        cell.style.backgroundColor = "";
+        cell.style.backgroundColor = "white";
     })
 }
 
