@@ -2,6 +2,7 @@ const container = document.querySelector("#container");
 const btnNewGrid = document.querySelector("#newGrid");
 const checkRGB = document.querySelector("#randomRGB");
 const checkEraser = document.querySelector("#eraser");
+const checkDarkEffect = document.querySelector("#darkEffect");
 
 
 
@@ -9,6 +10,7 @@ const widthContainer = 500;
 const heightContainer = 500;
 let randomRGB = false;
 let eraser = false;
+let darkEffect = false;
 
 btnNewGrid.addEventListener("click", createNewGrid);
 checkRGB.addEventListener("change", (e) => {
@@ -16,6 +18,9 @@ checkRGB.addEventListener("change", (e) => {
 });
 checkEraser.addEventListener("change", (e) => {
     eraser = e.currentTarget.checked;
+});
+checkDarkEffect.addEventListener("change", (e) => {
+    darkEffect = e.currentTarget.checked;
 });
 
 function setContainer() {
@@ -39,6 +44,20 @@ function colorPixel() {
     }
 }
 
+function opacity(number) {
+    if (darkEffect) {
+        number = Number(number);
+        console.log(number);
+        if (number < 1) {
+            return (number * 10 + 1) / 10;
+        } else {
+            return 1;
+        }
+    } else {
+        return 1;
+    }
+}
+
 function drawGrid(squareRow = 16) {
     setContainer();
     for (let i = 1; i <= squareRow * squareRow; i++) {
@@ -49,7 +68,7 @@ function drawGrid(squareRow = 16) {
         container.appendChild(div);
         div.addEventListener('mouseover', function (e) {
             let color = colorPixel();
-            e.currentTarget.setAttribute("style", "width: " + widthDiv + "px; height: " + heightDiv + "px; background-color: rgb(" + color[0] + "," + color[1] + "," + color[2] + ")");
+            e.currentTarget.setAttribute("style", "width: " + widthDiv + "px; height: " + heightDiv + "px; background-color: rgb(" + color[0] + "," + color[1] + "," + color[2] + "); opacity: " + opacity(e.currentTarget.style.opacity));
         });
     }
 }
