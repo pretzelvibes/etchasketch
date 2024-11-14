@@ -9,11 +9,13 @@ const heightContainer = 500;
 let randomRGB = false;
 let eraser = false;
 let darkEffect = false;
+let isPainting = false;
 
 btnNewGrid.addEventListener("click", createNewGrid);
 checkRGB.addEventListener("change", (e) => randomRGB = e.currentTarget.checked);
 checkEraser.addEventListener("change", (e) => eraser = e.currentTarget.checked);
 checkDarkEffect.addEventListener("change", (e) => darkEffect = e.currentTarget.checked);
+document.addEventListener("mouseup", () => isPainting = false);
 
 function setContainer() {
     container.setAttribute("style", "width: " + widthContainer + "px; height: " + heightContainer + "px");
@@ -56,12 +58,22 @@ function drawGrid(squareRow = 16) {
         const squareSize = widthContainer / squareRow;
         square.style.cssText = "width: " + squareSize + "px; height: " + squareSize + "px;"
         container.appendChild(square);
-        square.addEventListener('mouseover', function (e) {
-            const [r, b, g] = colorPixel();
-            e.target.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-            e.target.style.opacity = opacity(e.target.style.opacity);
+        square.addEventListener('mousedown', function (e) {
+            isPainting = true;
+            drawPixel(e);
+        });
+        square.addEventListener('mouseenter', function (e) {
+            if (isPainting) {
+                drawPixel(e);
+            }
         });
     }
+}
+
+function drawPixel(e) {
+    const [r, b, g] = colorPixel();
+    e.target.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+    e.target.style.opacity = opacity(e.target.style.opacity);
 }
 
 function deleteGrid() {
