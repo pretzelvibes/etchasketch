@@ -25,7 +25,32 @@ toggleButtons.forEach(button => {
 });
 
 function toggleButtonState(button) {
-    button.classList.toggle("active");
+    if (button.classList.contains("active")) {
+        button.classList.remove("active");
+        resetState();
+    } else {
+        toggleButtons.forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+        if (button.id === "randomRGB") {
+            randomRGB = true;
+            eraser = false;
+            darkEffect = false;
+        } else if (button.id === "eraser") {
+            eraser = true;
+            randomRGB = false;
+            darkEffect = false;
+        } else if (button.id === "darkEffect") {
+            darkEffect = true;
+            randomRGB = false;
+            eraser = false;
+        }
+    }
+}
+
+function resetState() {
+    randomRGB = false;
+    eraser = false;
+    darkEffect = false;
 }
 
 function cleanCanvas() {
