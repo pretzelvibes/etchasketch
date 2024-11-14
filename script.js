@@ -1,8 +1,10 @@
 const container = document.querySelector("#container");
 const btnNewGrid = document.querySelector("#newGrid");
+const btnCleanCanvas = document.querySelector("#cleanCanvas");
 const checkRGB = document.querySelector("#randomRGB");
 const checkEraser = document.querySelector("#eraser");
 const checkDarkEffect = document.querySelector("#darkEffect");
+const toggleButtons = document.querySelectorAll(".toggle-button");
 
 const widthContainer = 500;
 const heightContainer = 500;
@@ -12,10 +14,24 @@ let darkEffect = false;
 let isPainting = false;
 
 btnNewGrid.addEventListener("click", createNewGrid);
+btnCleanCanvas.addEventListener("click", cleanCanvas);
 checkRGB.addEventListener("change", (e) => randomRGB = e.currentTarget.checked);
 checkEraser.addEventListener("change", (e) => eraser = e.currentTarget.checked);
 checkDarkEffect.addEventListener("change", (e) => darkEffect = e.currentTarget.checked);
 document.addEventListener("mouseup", () => isPainting = false);
+
+toggleButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        button.classList.toggle("active");
+    });
+});
+
+function cleanCanvas() {
+    const squares = container.querySelectorAll("div");
+    squares.forEach(cell => {
+        cell.style.backgroundColor = "";
+    })
+}
 
 function setContainer() {
     container.setAttribute("style", "width: " + widthContainer + "px; height: " + heightContainer + "px");

@@ -4,36 +4,81 @@ body {
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #e9eff7;
     color: #333;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    min-height: 100vh;
 }
 
-input, label {
-    font-size: 14px;
-    color: #555;
+header {
+    padding: 10px;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 10px;
+    color: #4a7de3;
+    text-transform: uppercase;
 }
 
 .controls {
-    margin-top: 30px;
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
     align-items: center;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
-#newGrid {
-    padding: 10px 20px;
+.button-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.toggle-button-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.button {
+    padding: 8px 16px;
     background-color: #5b8dfd;
     color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
+    cursor: pointer;
     transition: background-color 0.3s;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
-#newGrid:hover {
+.button:hover {
     background-color: #4a7de3;
+}
+
+.toggle-button {
+    padding: 8px 16px;
+    background-color: #ccc;
+    color: #333;
+    border: 2px solid #bbb;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-button:hover {
+    background-color: #bbb;
+}
+
+.toggle-button.active {
+    background-color: #ff7b54;
+    color: #fff;
+    border-color: #ff7b54;
 }
 
 #container {
@@ -41,9 +86,11 @@ input, label {
     flex-wrap: wrap;
     width: 500px;
     height: 500px;
-    border: 2px solid #ddd;
+    border: 10px solid #ddd;
     background-color: #fff;
-    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 #container div {

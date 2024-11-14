@@ -8,14 +8,17 @@
     <title>Etch-a-Sketch</title>
 </head>
 <body>
+    <div><header>Etch-A-Sketch</header></div>
     <div class="controls">
-        <button id="newGrid">Create New Grid!</button>
-        <input type="checkbox" id="randomRGB" name="randomRGB" value="Random RGB">
-        <label for="randomRGB">Random RGB</label>
-        <input type="checkbox" id="eraser" name="eraser" value="Eraser">
-        <label for="eraser">Eraser</label>
-        <input type="checkbox" id="darkEffect" name="darkEffect" value="Dark Effect">
-        <label for="darkEffect">Dark Effect</label>
+        <div class="button-row">
+            <button id="newGrid" class="button">Pick new grid size!</button>
+            <button id="cleanCanvas" class="button">Clean canvas</button>
+        </div>
+        <div class="toggle-button-row">
+            <button id="randomRGB" class="toggle-button">Random RGB</button>
+            <button id="eraser" class="toggle-button">Eraser</button>
+            <button id="darkEffect" class="toggle-button">Dark Effect</button>
+        </div>
     </div>
     <div id="container"></div>
 </body>
