@@ -1,9 +1,9 @@
 const container = document.querySelector("#container");
 const btnNewGrid = document.querySelector("#newGrid");
 const btnCleanCanvas = document.querySelector("#cleanCanvas");
-const checkRGB = document.querySelector("#randomRGB");
-const checkEraser = document.querySelector("#eraser");
-const checkDarkEffect = document.querySelector("#darkEffect");
+const btnRandomRGB = document.querySelector("#randomRGB");
+const btnEraser = document.querySelector("#eraser");
+const btnDarkEffect = document.querySelector("#darkEffect");
 const toggleButtons = document.querySelectorAll(".toggle-button");
 
 const widthContainer = 500;
@@ -15,16 +15,18 @@ let isPainting = false;
 
 btnNewGrid.addEventListener("click", createNewGrid);
 btnCleanCanvas.addEventListener("click", cleanCanvas);
-checkRGB.addEventListener("change", (e) => randomRGB = e.currentTarget.checked);
-checkEraser.addEventListener("change", (e) => eraser = e.currentTarget.checked);
-checkDarkEffect.addEventListener("change", (e) => darkEffect = e.currentTarget.checked);
+btnRandomRGB.addEventListener("click", () => randomRGB = !randomRGB);
+btnEraser.addEventListener("click", () => eraser = !eraser);
+btnDarkEffect.addEventListener("click", () => darkEffect = !darkEffect);
 document.addEventListener("mouseup", () => isPainting = false);
 
 toggleButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        button.classList.toggle("active");
-    });
+    button.addEventListener("click", () => toggleButtonState(button));
 });
+
+function toggleButtonState(button) {
+    button.classList.toggle("active");
+}
 
 function cleanCanvas() {
     const squares = container.querySelectorAll("div");
@@ -45,7 +47,7 @@ function generateRandomRGB() {
     return [r, g, b];
 }
 
-function colorPixel() {
+function getPixelColor() {
     if (randomRGB) {
         return generateRandomRGB();
     } else if (eraser) {
@@ -55,7 +57,7 @@ function colorPixel() {
     }
 }
 
-function opacity(currentOpacity) {
+function applyDarkEffect(currentOpacity) {
     if (darkEffect) {
         let opacity = Number(currentOpacity);
         if (opacity < 1) {
@@ -70,27 +72,28 @@ function opacity(currentOpacity) {
 
 function drawGrid(squareRow = 16) {
     setContainer();
+    const squareSize = widthContainer / squareRow;
     for (let i = 1; i <= squareRow * squareRow; i++) {
         const square = document.createElement("div");
-        const squareSize = widthContainer / squareRow;
-        square.style.cssText = "width: " + squareSize + "px; height: " + squareSize + "px;"
+        square.style.width = squareSize + "px";
+        square.style.height = squareSize + "px";
         container.appendChild(square);
         square.addEventListener('mousedown', function (e) {
             isPainting = true;
-            drawPixel(e);
+            paintPixel(e.target);
         });
         square.addEventListener('mouseenter', function (e) {
             if (isPainting) {
-                drawPixel(e);
+                paintPixel(e.target);
             }
         });
     }
 }
 
-function drawPixel(e) {
-    const [r, b, g] = colorPixel();
-    e.target.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-    e.target.style.opacity = opacity(e.target.style.opacity);
+function paintPixel(pixel) {
+    const [r, b, g] = getPixelColor();
+    pixel.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+    pixel.style.opacity = applyDarkEffect(pixel.style.opacity);
 }
 
 function deleteGrid() {
@@ -101,10 +104,11 @@ function deleteGrid() {
 }
 
 function createNewGrid() {
-    const squareRow = +prompt("Square per row (max 100):");
-    while (squareRow > 100) {
-        squareRow = +prompt("Square per row (max 100):");
-    }
+    let squareRow;
+    do {
+        squareRow = parseInt(prompt("Square per row (max 100):"), 10);
+    } while (isNaN(squareRow) || squareRow > 100);
+
     deleteGrid();
     drawGrid(squareRow);
 }
