@@ -43,12 +43,12 @@ input, label {
     height: 500px;
     border: 2px solid #ddd;
     background-color: #fff;
-    border-radius: 10px;
     margin-top: 10px;
 }
 
 #container div {
-    outline: 1px solid #ddd;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
     background-color: white;
     transition: background-color 0.3s, opacity 0.3s;
 }
