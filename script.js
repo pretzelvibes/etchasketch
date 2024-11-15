@@ -56,8 +56,10 @@ function resetState() {
 function cleanCanvas() {
     const squares = container.querySelectorAll("div");
     squares.forEach(cell => {
-        cell.style.backgroundColor = "white";
-    })
+        cell.style.backgroundColor = "";
+        cell.style.opacity = "";
+        delete cell.dataset.darkEffect;
+    });
 }
 
 function setContainer() {
@@ -72,26 +74,30 @@ function generateRandomRGB() {
     return [r, g, b];
 }
 
-function getPixelColor() {
+function getPixelColor(pixel) {
     if (randomRGB) {
         return generateRandomRGB();
     } else if (eraser) {
-        return [255, 255, 255]
+        return [255, 255, 255];
     } else {
         return [80, 80, 80];
     }
 }
 
-function applyDarkEffect(currentOpacity) {
+function applyDarkEffect(pixel) {
+    let opacity = Number(pixel.style.opacity);
     if (darkEffect) {
-        let opacity = Number(currentOpacity);
-        if (opacity < 1) {
-            return (opacity * 10 + 1) / 10;
+        if (pixel.dataset.darkEffect === undefined) {
+            opacity = 0.1;
         } else {
-            return 1;
+            opacity += 0.1;
+            if (opacity > 1) opacity = 1;
         }
+        pixel.dataset.darkEffect = true;
+        pixel.style.opacity = opacity;
     } else {
-        return 1;
+        delete pixel.dataset.darkEffect;
+        pixel.style.opacity = 1;
     }
 }
 
@@ -103,10 +109,12 @@ function drawGrid(squareRow = 16) {
         square.style.width = squareSize + "px";
         square.style.height = squareSize + "px";
         container.appendChild(square);
+
         square.addEventListener('mousedown', function (e) {
             isPainting = true;
             paintPixel(e.target);
         });
+
         square.addEventListener('mouseenter', function (e) {
             if (isPainting) {
                 paintPixel(e.target);
@@ -116,16 +124,14 @@ function drawGrid(squareRow = 16) {
 }
 
 function paintPixel(pixel) {
-    const [r, b, g] = getPixelColor();
+    const [r, g, b] = getPixelColor(pixel);
     pixel.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
-    pixel.style.opacity = applyDarkEffect(pixel.style.opacity);
+    applyDarkEffect(pixel);
 }
 
 function deleteGrid() {
     const nodeList = container.querySelectorAll("div");
-    for (let i = 0; i < nodeList.length; i++) {
-        nodeList[i].remove();
-    }
+    nodeList.forEach(node => node.remove());
 }
 
 function createNewGrid() {
