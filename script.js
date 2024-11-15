@@ -111,12 +111,14 @@ function drawGrid(squareRow = 16) {
         container.appendChild(square);
 
         square.addEventListener('mousedown', function (e) {
-            isPainting = true;
-            paintPixel(e.target);
+            if (e.button === 0) {
+                isPainting = true;
+                paintPixel(e.target);
+            }
         });
 
         square.addEventListener('mouseenter', function (e) {
-            if (isPainting) {
+            if (e.button === 0 && isPainting) {
                 paintPixel(e.target);
             }
         });
